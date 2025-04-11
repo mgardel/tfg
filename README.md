@@ -1,2 +1,1 @@
-# tfg
-Repository for fp tfg with terraform
+Almacenamiento y control de versiones del TFG de grado superior.
