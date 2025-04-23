@@ -1,0 +1,34 @@
+variable "ssh_keys_path" {
+  description = "Ruta a claves ssh"
+  type        = string
+}
+
+variable "command" {
+  description = "comandos de locl-exec"
+  type        = string
+}
+
+variable "postgres_user" {
+  description = "Usuario de postgresql"
+  type        = string
+}
+
+variable "postgres_passwd" {
+  description = "contra de postgresql"
+  type        = string
+}
+
+variable "postgres_db" {
+  description = "db de postgresql"
+  type        = string
+}
+
+variable "image" {
+  description = "Imagen de docker"
+  type        = string
+}
+
+variable "name" {
+  description = "Nombre del docker db"
+  type        = string
+}

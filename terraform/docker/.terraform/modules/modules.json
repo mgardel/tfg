@@ -1,0 +1,1 @@
+{"Modules":[{"Key":"","Source":"","Dir":"."},{"Key":"bastion","Source":"./modulos/bastion","Dir":"modulos/bastion"},{"Key":"debian","Source":"./modulos/contenedor","Dir":"modulos/contenedor"},{"Key":"postgres","Source":"./modulos/bbdd","Dir":"modulos/bbdd"},{"Key":"ubuntu","Source":"./modulos/contenedor","Dir":"modulos/contenedor"}]}

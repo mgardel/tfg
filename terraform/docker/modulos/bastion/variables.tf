@@ -1,0 +1,14 @@
+variable "ssh_keys_path" {
+  description = "Ruta a claves ssh"
+  type        = string
+}
+
+variable "image" {
+  description = "Imagen de docker"
+  type        = string
+}
+
+variable "name" {
+  description = "Nombre del bastion"
+  type        = string
+}
