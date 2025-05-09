@@ -1,5 +1,5 @@
-variable "ssh_keys_path" {
-  description = "Ruta a claves ssh"
+variable "name" {
+  description = "Nombre del docker dhcp"
   type        = string
 }
 
@@ -8,12 +8,12 @@ variable "image" {
   type        = string
 }
 
-variable "name" {
-  description = "Nombre del bastion"
+variable "ip_address" {
+  description = "IP del servidor DHCP"
   type        = string
 }
 
 variable "network_name" {
-  description = "Nombre de la red"
+  description = "ID de la red Docker"
   type        = string
 }

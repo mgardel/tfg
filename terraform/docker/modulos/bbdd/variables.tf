@@ -3,10 +3,6 @@ variable "ssh_keys_path" {
   type        = string
 }
 
-variable "command" {
-  description = "comandos de locl-exec"
-  type        = string
-}
 
 variable "postgres_user" {
   description = "Usuario de postgresql"
@@ -30,5 +26,10 @@ variable "image" {
 
 variable "name" {
   description = "Nombre del docker db"
+  type        = string
+}
+
+variable "network_name" {
+  description = "Nombre de la red"
   type        = string
 }

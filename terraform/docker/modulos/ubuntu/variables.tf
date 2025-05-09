@@ -8,9 +8,15 @@ variable "image" {
   type        = string
 }
 
-variable "name" {
-  description = "Nombre del bastion"
+variable "name_prefix" {
+  description = "Prefijo del nombre del docker"
   type        = string
+}
+
+
+variable "instance_count" {
+  description = "Numero de instancias a desplegar"
+  type        = number
 }
 
 variable "network_name" {

@@ -13,12 +13,13 @@ variable "name_prefix" {
   type        = string
 }
 
-variable "command" {
-  description = "comandos de locl-exec"
-  type        = string
-}
 
 variable "instance_count" {
   description = "Numero de instancias a desplegar"
   type        = number
+}
+
+variable "network_name" {
+  description = "Nombre de la red"
+  type        = string
 }

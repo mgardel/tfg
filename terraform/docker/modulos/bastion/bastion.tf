@@ -2,8 +2,8 @@
 resource "docker_container" "bastion" {
   image        = var.image
   name         = var.name
-  network_mode = "bridge"
-  command      = ["sh", "-c", "apt update && apt install -y ansible vim && sleep infinity"]
+  privileged = true
+  command      = ["sh", "-c", "apt update && apt install -y ansible vim && apt install -y isc-dhcp-client && ip addr flush dev eth0 && dhclient -v eth0 && sleep infinity"]
 
   provisioner "local-exec" {
     command = <<EOT
@@ -23,7 +23,7 @@ EOT
 
   mounts {
     type   = "bind"
-    source = "/home/miguel/shared_playbooks"
+    source = "/home/miguel/Escritorio/tfg/shared_playbooks"
     target = "/root/shared_playbooks"
   }
 
@@ -31,4 +31,10 @@ EOT
     internal = 22
     external = 2222
   }
+
+  networks_advanced {
+  name = var.network_name
+  ipv4_address  = "192.168.0.3"
+}
+
 }

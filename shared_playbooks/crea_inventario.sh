@@ -1,10 +1,10 @@
 #!/bin/bash
 #
 #Nombre fichero inventario
-INVENTORY_FILE="/home/miguel/shared_playbooks/ansible_inventory.ini"
+INVENTORY_FILE="/home/miguel/Escritorio/tfg/shared_playbooks/ansible_inventory.ini"
 
 #Obtener lista de contenedores en red bridge
-containers=$(docker network inspect bridge -f '{{range .Containers}}{{.Name}} {{.IPv4Address}}{{"\n"}}{{end}}')
+containers=$(docker network inspect bridge_network -f '{{range .Containers}}{{.Name}} {{.IPv4Address}}{{"\n"}}{{end}}')
 
 #Crear archivo de inventario
 echo "[bridge_network]" > $INVENTORY_FILE
