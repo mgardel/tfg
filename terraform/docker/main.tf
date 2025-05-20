@@ -17,6 +17,7 @@ module "dhcp" {
   source       = "./modulos/dhcp"
   name         = "dhcp_server"
   image        = "networkboot/dhcpd"
+  ssh_keys_path  = local.ssh_keys_path
   ip_address   = "192.168.0.2"
   network_name = docker_network.bridge_network.id
   providers = {

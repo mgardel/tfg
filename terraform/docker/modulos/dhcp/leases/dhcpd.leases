@@ -1,0 +1,68 @@
+# The format of this file is documented in the dhcpd.leases(5) manual page.
+# This lease file was written by isc-dhcp-4.4.1
+
+# authoring-byte-order entry is generated, DO NOT DELETE
+authoring-byte-order little-endian;
+
+server-duid "\000\001\000\001/\277>\304\352\337++f\327";
+
+lease 192.168.0.20 {
+  starts 2 2025/05/20 13:24:06;
+  ends 5 2035/05/18 13:24:06;
+  cltt 2 2025/05/20 13:24:06;
+  binding state active;
+  next binding state free;
+  rewind binding state free;
+  hardware ethernet 8a:67:3f:db:57:cd;
+  client-hostname "733a90d8b210";
+}
+lease 192.168.0.21 {
+  starts 2 2025/05/20 13:24:07;
+  ends 5 2035/05/18 13:24:07;
+  cltt 2 2025/05/20 13:24:07;
+  binding state active;
+  next binding state free;
+  rewind binding state free;
+  hardware ethernet c2:cb:bc:b5:60:20;
+  client-hostname "5371d42a1cf9";
+}
+lease 192.168.0.22 {
+  starts 2 2025/05/20 13:24:07;
+  ends 5 2035/05/18 13:24:07;
+  cltt 2 2025/05/20 13:24:07;
+  binding state active;
+  next binding state free;
+  rewind binding state free;
+  hardware ethernet 26:e7:6a:8b:50:91;
+  client-hostname "3126f9516036";
+}
+lease 192.168.0.23 {
+  starts 2 2025/05/20 13:24:22;
+  ends 5 2035/05/18 13:24:22;
+  cltt 2 2025/05/20 13:24:22;
+  binding state active;
+  next binding state free;
+  rewind binding state free;
+  hardware ethernet 9e:32:a5:35:4d:03;
+  client-hostname "85dc51b7ab00";
+}
+lease 192.168.0.24 {
+  starts 2 2025/05/20 13:24:25;
+  ends 5 2035/05/18 13:24:25;
+  cltt 2 2025/05/20 13:24:25;
+  binding state active;
+  next binding state free;
+  rewind binding state free;
+  hardware ethernet 9a:47:32:da:ca:6f;
+  client-hostname "134fdf00e97d";
+}
+lease 192.168.0.25 {
+  starts 2 2025/05/20 13:24:54;
+  ends 5 2035/05/18 13:24:54;
+  cltt 2 2025/05/20 13:24:54;
+  binding state active;
+  next binding state free;
+  rewind binding state free;
+  hardware ethernet 7e:a2:d8:77:3d:60;
+  client-hostname "e2b976eb9a7c";
+}

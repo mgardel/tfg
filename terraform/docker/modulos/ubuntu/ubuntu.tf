@@ -8,6 +8,7 @@ resource "docker_container" "ubuntu" {
   provisioner "local-exec" {
   command       = <<EOT
     sleep 25 && \
+    docker exec ${var.name_prefix}-${count.index + 1} mkdir -p /root/.ssh && \
     docker cp ${var.ssh_keys_path}/id_bastion.pub ${var.name_prefix}-${count.index + 1}:/root/.ssh/ && \
     docker cp ${var.ssh_keys_path}/authorized_keys ${var.name_prefix}-${count.index + 1}:/root/.ssh/ && \
     sleep 15 && \

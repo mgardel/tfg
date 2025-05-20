@@ -1,27 +1,43 @@
 #!/bin/bash
-#
-#Nombre fichero inventario
+
+# Nombre del fichero de inventario
 INVENTORY_FILE="/home/miguel/Escritorio/tfg/shared_playbooks/ansible_inventory.ini"
 
-#Obtener lista de contenedores en red bridge
-containers=$(docker network inspect bridge_network -f '{{range .Containers}}{{.Name}} {{.IPv4Address}}{{"\n"}}{{end}}')
+# Obtener nombres de contenedores
+containers=$(docker ps --format '{{.Names}}')
 
-#Crear archivo de inventario
-echo "[bridge_network]" > $INVENTORY_FILE
+# Inicializar inventarios por grupo
+echo "[bridge_network]" > "$INVENTORY_FILE"
+echo "" >> "$INVENTORY_FILE"
+echo "[dhcp]" >> "$INVENTORY_FILE"
+echo "" >> "$INVENTORY_FILE"
+echo "[bastion]" >> "$INVENTORY_FILE"
+echo "" >> "$INVENTORY_FILE"
 
-#Añadir contenedores al inventario
-while read -r container; do
-	name=$(echo $container | awk '{print $1}')
-	ip=$(echo $container | awk '{print $2}' | cut -d'/' -f1)
-	if [[ "$name" != *"bastion"* ]];then
-		echo "$name ansible_host=$ip ansible_user=root ansible_ssh_private_key_file=/root/.ssh/id_bastion ansible_python_interpreter=/usr/bin/python3" >> $INVENTORY_FILE
-	else
-		name_bastion=$name
-		ip_bastion=$ip
-	fi
-done <<< "$containers"
+for name in $containers; do
+  # Saltar contenedores que no están en la red bridge_network
+  if ! docker inspect "$name" | grep -q "bridge_network"; then
+    continue
+  fi
 
-echo "[bastion]" >> $INVENTORY_FILE
-echo "$name_bastion ansible_host=$ip_bastion ansible_user=root ansible_ssh_private_key_file=/root/.ssh/id_bastion ansible_python_interpreter=/usr/bin/python3" >> $INVENTORY_FILE
+  # Obtener la IP real desde dentro del contenedor
+  ip=$(docker exec "$name" hostname -I 2>/dev/null | awk '{print $1}')
 
-echo "Inventario de ansible generado en $INVENTORY_FILE"
+  if [[ -z "$ip" ]]; then
+    echo "⚠️  No se pudo obtener IP para $name"
+    continue
+  fi
+
+  entry="$name ansible_host=$ip ansible_user=root ansible_ssh_private_key_file=/root/.ssh/id_bastion ansible_python_interpreter=/usr/bin/python3"
+
+  if [[ "$name" == *"bastion"* ]]; then
+    sed -i "/^\[bastion\]/a $entry" "$INVENTORY_FILE"
+  elif [[ "$name" == *"dhcp_server"* ]]; then
+    sed -i "/^\[dhcp\]/a $entry" "$INVENTORY_FILE"
+  else
+    sed -i "/^\[bridge_network\]/a $entry" "$INVENTORY_FILE"
+  fi
+done
+
+echo "�� Inventario de Ansible actualizado en $INVENTORY_FILE"
+
