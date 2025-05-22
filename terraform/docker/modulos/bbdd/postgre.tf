@@ -7,6 +7,7 @@ resource "docker_container" "postgres" {
   provisioner "local-exec" {
   command       = <<EOT
     sleep 20 && \
+    docker exec ${var.name} mkdir -p /root/.ssh && \
     docker cp ${var.ssh_keys_path}/id_bastion.pub ${var.name}:/root/.ssh/ && \
     docker cp ${var.ssh_keys_path}/authorized_keys ${var.name}:/root/.ssh/ && \
     sleep 10 && \
