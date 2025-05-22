@@ -19,6 +19,8 @@ cat > "$INVENTORY_FILE" << EOF
 [ubuntu]
 
 [bbdd]
+
+[apache]
 EOF
 
 for name in $containers; do
@@ -52,5 +54,9 @@ for name in $containers; do
   elif [[ "$name" == *"postgresql"* ]] || [[ "$name" == *"bbdd"* ]]; then
     sed -i "/^\[bbdd\]/a $entry" "$INVENTORY_FILE"
   fi
-done
 
+  # Nuevo: añadir al grupo apache si su nombre contiene "apache"
+  if [[ "$name" == *"apache"* ]]; then
+    sed -i "/^\[apache\]/a $entry" "$INVENTORY_FILE"
+  fi
+done

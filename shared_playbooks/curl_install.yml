@@ -1,0 +1,14 @@
+---
+- name: Instalar curl
+  hosts: all
+  become: yes
+  tasks:
+    - name: Actualizar el índice e paquetes
+      apt:
+        update_cache: yes
+
+    - name: Instalar curl
+      apt:
+        name: curl
+        state: present
+

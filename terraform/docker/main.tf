@@ -85,3 +85,17 @@ module "postgres" {
     docker = docker
   }
 }
+
+# ----------------------------
+# Apache
+# ----------------------------
+module "apache" {
+  source         = "./modulos/apache"
+  image          = "ubuntu:latest"
+  name           = "apache"
+  ssh_keys_path  = local.ssh_keys_path
+  network_name   = docker_network.bridge_network.name
+  providers = {
+    docker = docker
+  }
+}
