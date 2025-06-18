@@ -32,6 +32,7 @@ module "bastion" {
   source        = "./modulos/bastion"
   image         = "ubuntu:latest"
   name          = "bastion"
+  raiz = local.raiz
   ssh_keys_path = local.ssh_keys_path
   network_name  = docker_network.bridge_network.name
   providers = {

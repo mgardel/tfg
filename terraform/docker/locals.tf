@@ -1,3 +1,4 @@
 locals {
-  ssh_keys_path = "/home/miguel/ssh_keys/.ssh"
+  ssh_keys_path = ""
+  raiz = ""
 }
