@@ -1,0 +1,45 @@
+---
+- name: Instalar Apache y configurar página de bienvenida
+  hosts: apache
+  become: yes
+
+  tasks:
+    - name: Actualizar paquetes
+      apt:
+        update_cache: yes
+        upgrade: dist
+
+    - name: Instalar Apache
+      apt:
+        name: apache2
+        state: present
+
+    - name: Asegurarse de que apache2 se está ejecutando (por proceso)
+      shell: |
+        pgrep apache2 || (nohup apache2ctl start &)
+      args:
+        executable: /bin/bash
+
+    - name: Crear página de bienvenida
+      copy:
+        dest: /var/www/html/index.html
+        content: |
+          <!DOCTYPE html>
+          <html lang="es">
+          <head>
+              <meta charset="UTF-8">
+              <title>Página de Miguel y Jorge</title>
+          </head>
+          <body>
+              <h1>Página de Miguel y Jorge</h1>
+          </body>
+          </html>
+        owner: www-data
+        group: www-data
+        mode: '0644'
+
+    - name: Verificar que Apache está escuchando en el puerto 80
+      wait_for:
+        port: 80
+        state: started
+        timeout: 10

@@ -1,0 +1,34 @@
+---
+- name: Permitir solo SSH entrante desde Ubuntu y Bastion
+  hosts: apache
+  become: true
+  vars:
+    allow_groups:
+      - ubuntu
+      - bastion
+
+  tasks:
+    - name: Obtener IPs permitidas de los grupos definidos
+      set_fact:
+        allow_ips: >-
+          {{
+            allow_groups
+            | map('extract', groups)
+            | flatten
+            | map('extract', hostvars, 'ansible_host')
+            | list
+          }}
+
+    - name: Limpiar reglas SSH anteriores (si existen)
+      shell: iptables -D INPUT -p tcp --dport 22 -s {{ item }} -j ACCEPT || true
+      loop: "{{ allow_ips }}"
+      ignore_errors: true
+
+    - name: Permitir SSH solo desde IPs permitidas
+      shell: iptables -I INPUT -p tcp --dport 22 -s {{ item }} -j ACCEPT
+      loop: "{{ allow_ips }}"
+      ignore_errors: true
+
+    - name: Bloquear cualquier otra conexión SSH entrante
+      shell: iptables -A INPUT -p tcp --dport 22 -j DROP
+

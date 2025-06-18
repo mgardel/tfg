@@ -1,0 +1,20 @@
+---
+- name: Instalar herramientas de red en los nodos
+  hosts: "{{hosts}}"
+  become: true
+  tasks:
+
+    - name: Actualizar la caché de paquetes
+      apt:
+        update_cache: yes
+
+    - name: Instalar herramientas de red comunes
+      apt:
+        name:
+          - net-tools        # ifconfig, netstat, etc.
+          - iputils-ping     # ping
+          - iproute2         # ip, ss, etc.
+          - dnsutils         # dig, nslookup, host
+          - traceroute       # traceroute
+        state: present
+

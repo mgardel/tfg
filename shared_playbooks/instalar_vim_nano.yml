@@ -1,0 +1,27 @@
+---
+- name: Instalar vim y nano en varias distribuciones
+  hosts: "{{ hosts }}"
+  become: true
+  tasks:
+
+    - name: Actualizar cache de paquetes (Debian/Ubuntu)
+      apt:
+        update_cache: yes
+      when: ansible_facts['os_family'] == 'Debian'
+
+    - name: Instalar vim y nano en Debian/Ubuntu
+      apt:
+        name:
+          - vim
+          - nano
+        state: present
+      when: ansible_facts['os_family'] == 'Debian'
+
+    - name: Instalar vim y nano en RedHat/CentOS
+      yum:
+        name:
+          - vim
+          - nano
+        state: present
+      when: ansible_facts['os_family'] == 'RedHat'
+

@@ -1,0 +1,11 @@
+---
+- name: Instalar iptables en todos los contenedores
+  hosts: all
+  become: true
+  tasks:
+    - name: Instalar iptables
+      apt:
+        name: iptables
+        state: present
+        update_cache: true
+

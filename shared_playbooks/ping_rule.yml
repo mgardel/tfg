@@ -1,0 +1,81 @@
+---
+- name: Permitir pings solo entre máquinas Ubuntu
+  hosts: ubuntu
+  become: true
+  vars:
+    allow_group: ubuntu
+  tasks:
+    - name: Obtener IPs del grupo Ubuntu (excepto este host)
+      set_fact:
+        allow_ips: >-
+          {{
+            groups[allow_group]
+            | map('extract', hostvars, 'ansible_host')
+            | reject('equalto', hostvars[inventory_hostname]['ansible_host'])
+            | list
+          }}
+
+    - name: Permitir ICMP echo-request solo a otras Ubuntu
+      shell: iptables -I OUTPUT -p icmp --icmp-type echo-request -d {{ item }} -j ACCEPT
+      loop: "{{ allow_ips }}"
+      ignore_errors: true
+
+    - name: Obtener IPs de otros grupos
+      set_fact:
+        deny_ips: >-
+          {{
+            groups.keys()
+            | difference([allow_group, 'localhost'])
+            | map('extract', groups)
+            | flatten
+            | map('extract', hostvars, 'ansible_host')
+            | reject('equalto', hostvars[inventory_hostname]['ansible_host'])
+            | list
+          }}
+
+    - name: Bloquear ICMP echo-request a otros grupos desde Ubuntu
+      shell: iptables -A OUTPUT -p icmp --icmp-type echo-request -d {{ item }} -j DROP
+      loop: "{{ deny_ips }}"
+      ignore_errors: true
+
+# ---------------------------------------------------------------------
+
+- name: Permitir pings solo entre máquinas Debian
+  hosts: debian
+  become: true
+  vars:
+    allow_group: debian
+  tasks:
+    - name: Obtener IPs del grupo Debian (excepto este host)
+      set_fact:
+        allow_ips: >-
+          {{
+            groups[allow_group]
+            | map('extract', hostvars, 'ansible_host')
+            | reject('equalto', hostvars[inventory_hostname]['ansible_host'])
+            | list
+          }}
+
+    - name: Permitir ICMP echo-request solo a otras Debian
+      shell: iptables -I OUTPUT -p icmp --icmp-type echo-request -d {{ item }} -j ACCEPT
+      loop: "{{ allow_ips }}"
+      ignore_errors: true
+
+    - name: Obtener IPs de otros grupos
+      set_fact:
+        deny_ips: >-
+          {{
+            groups.keys()
+            | difference([allow_group, 'localhost'])
+            | map('extract', groups)
+            | flatten
+            | map('extract', hostvars, 'ansible_host')
+            | reject('equalto', hostvars[inventory_hostname]['ansible_host'])
+            | list
+          }}
+
+    - name: Bloquear ICMP echo-request a otros grupos desde Debian
+      shell: iptables -A OUTPUT -p icmp --icmp-type echo-request -d {{ item }} -j DROP
+      loop: "{{ deny_ips }}"
+      ignore_errors: true
+
