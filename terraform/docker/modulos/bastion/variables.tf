@@ -17,3 +17,8 @@ variable "network_name" {
   description = "Nombre de la red"
   type        = string
 }
+
+variable "raiz" {
+  description = "Ruta a raiz del proyecto"
+  type        = string
+}

@@ -23,7 +23,7 @@ EOT
 
   mounts {
     type   = "bind"
-    source = "/home/miguel/Escritorio/tfg/shared_playbooks"
+    source = "${var.raiz}/shared_playbooks"
     target = "/root/shared_playbooks"
   }
 
